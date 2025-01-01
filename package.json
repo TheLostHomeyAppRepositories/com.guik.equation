@@ -1,0 +1,28 @@
+{
+  "name": "net.forgebinaire.nodon",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "homey app run",
+    "build": "tsc",
+    "lint": "eslint --ext .js,.mjs,.ts --ignore-path .gitignore .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "homey": "homey",
+    "homey:validate": "homey app validate --level verified",
+    "homey:build": "homey app build"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^16.1.3",
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.10",
+    "@types/node": "^22.7.4",
+    "eslint": "^7.32.0",
+    "eslint-config-athom": "^3.1.3",
+    "homey": "^3.7.6",
+    "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "homey-log": "^2.1.0",
+    "homey-zigbeedriver": "^2.1.4",
+    "zigbee-clusters": "^2.4.1"
+  }
+}

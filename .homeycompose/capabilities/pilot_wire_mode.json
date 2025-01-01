@@ -1,0 +1,54 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Pilot wire capability",
+    "fr": "Fil pilote"
+  },
+  "uiComponent": "picker",
+  "getable": true,
+  "setable": true,
+  "values": [
+    {
+      "id": "off",
+      "title": {
+        "en": "Stop",
+        "fr": "Arrêt"
+      }
+    },
+    {
+      "id": "confort",
+      "title": {
+        "en": "Confort",
+        "fr": "Confort"
+      }
+    },
+    {
+      "id": "eco",
+      "title": {
+        "en": "Eco (-3°C)",
+        "fr": "Éco (-3°C)"
+      }
+    },
+    {
+      "id": "frost_protection",
+      "title": {
+        "en": "Frost free (~8°C)",
+        "nl": "Hors-gel (~8°C)"
+      }
+    },
+    {
+      "id": "confort_-1",
+      "title": {
+        "en": "Confort (-1°C)",
+        "fr": "Confort (-1°C)"
+      }
+    },
+    {
+      "id": "confort_-2",
+      "title": {
+        "en": "Confort (-2°C)",
+        "fr": "Confort (-2°C)"
+      }
+    }
+  ]
+}

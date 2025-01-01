@@ -1,0 +1,11 @@
+{
+  "extends": "athom/homey-app",
+  "overrides": [{ "files": ["**/*.mjs"] }],
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "rules": {
+    "strict": "off",
+    "node/no-unpublished-import": "off"
+  }
+}
