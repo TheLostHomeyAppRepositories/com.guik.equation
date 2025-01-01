@@ -1,6 +1,8 @@
 import { ZigBeeDevice } from 'homey-zigbeedriver';
 import ZigBee from 'zigbee-clusters';
-import PilotWireCluster from './PilotWireCluster.mjs';
+
+// eslint-disable-next-line import/extensions
+import NodOnPilotWireCluster from './NodOnPilotWireCluster.mjs';
 
 const { debug } = ZigBee;
 
@@ -37,7 +39,7 @@ export default class Device extends ZigBeeDevice {
       });
     };
 
-    this.registerCapability('pilot_wire_mode', PilotWireCluster, {
+    this.registerCapability('pilot_wire_mode', NodOnPilotWireCluster, {
       // get: 'mode',
       // getOpts: {
       //   getOnStart: true,

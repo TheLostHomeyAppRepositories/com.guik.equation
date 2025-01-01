@@ -33,10 +33,7 @@ const COMMANDS = {
   },
 };
 
-/**
- * @todo Rename this to `NodOnPilotWireCluster`
- */
-class PilotWireCluster extends Cluster {
+class NodOnPilotWireCluster extends Cluster {
 
   static get ID() {
     return 0xfc00;
@@ -56,6 +53,6 @@ class PilotWireCluster extends Cluster {
 
 }
 
-Cluster.addCluster(PilotWireCluster);
+Cluster.addCluster(NodOnPilotWireCluster);
 
-export default PilotWireCluster;
+export default NodOnPilotWireCluster;
