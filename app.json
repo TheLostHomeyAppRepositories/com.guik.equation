@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "net.forgebinaire.nodon",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "compatibility": ">=12.0.1",
   "sdk": 3,
   "platforms": [
@@ -40,7 +40,6 @@
     "url": "https://github.com/armandabric/net.forgebinaire.nodon/issues"
   },
   "support": "https://github.com/armandabric/net.forgebinaire.nodon/issues",
-  "esm": true,
   "drivers": [
     {
       "name": {

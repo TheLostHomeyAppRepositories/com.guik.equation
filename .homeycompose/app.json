@@ -1,9 +1,11 @@
 {
   "id": "net.forgebinaire.nodon",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "compatibility": ">=12.0.1",
   "sdk": 3,
-  "platforms": ["local"],
+  "platforms": [
+    "local"
+  ],
   "name": {
     "en": "NodOn",
     "fr": "NodOn"
@@ -12,7 +14,10 @@
     "en": "NodOn specific Zigbee pilot wire device for Homey",
     "fr": "Supporte le module de contrôlle de fil pilote de NodOn (Zigbee)"
   },
-  "category": ["energy", "climate"],
+  "category": [
+    "energy",
+    "climate"
+  ],
   "permissions": [],
   "brandColor": "#f58220",
   "images": {
