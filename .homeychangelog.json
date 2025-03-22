@@ -1,5 +1,8 @@
 {
   "2.0.0": {
     "en": "Initial version"
+  },
+  "2.1.0": {
+    "en": "Add an action flow (aka then card)"
   }
 }
