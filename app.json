@@ -40,6 +40,85 @@
     "url": "https://github.com/armandabric/net.forgebinaire.nodon/issues"
   },
   "support": "https://github.com/armandabric/net.forgebinaire.nodon/issues",
+  "esm": true,
+  "flow": {
+    "actions": [
+      {
+        "id": "pilot-wire-mode-action",
+        "title": {
+          "en": "Set the pilot wire mode",
+          "fr": "Définir le mode du fil pilote"
+        },
+        "titleFormatted": {
+          "en": "Set the pilot wire mode to [[mode]]",
+          "fr": "Définir le mode du fil pilote à [[mode]]"
+        },
+        "hint": {
+          "en": "Control the temperature of the room",
+          "fr": "Controller la temperature de de la pièce"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=SIN-4-FP-21"
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "title": {
+              "en": "Mode",
+              "fr": "Mode"
+            },
+            "values": [
+              {
+                "id": "off",
+                "title": {
+                  "en": "Stop",
+                  "fr": "Arrêt"
+                }
+              },
+              {
+                "id": "confort",
+                "title": {
+                  "en": "Confort",
+                  "fr": "Confort"
+                }
+              },
+              {
+                "id": "eco",
+                "title": {
+                  "en": "Eco (-3°C)",
+                  "fr": "Éco (-3°C)"
+                }
+              },
+              {
+                "id": "frost_protection",
+                "title": {
+                  "en": "Frost free (~8°C)",
+                  "nl": "Hors-gel (~8°C)"
+                }
+              },
+              {
+                "id": "confort_-1",
+                "title": {
+                  "en": "Confort (-1°C)",
+                  "fr": "Confort (-1°C)"
+                }
+              },
+              {
+                "id": "confort_-2",
+                "title": {
+                  "en": "Confort (-2°C)",
+                  "fr": "Confort (-2°C)"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
