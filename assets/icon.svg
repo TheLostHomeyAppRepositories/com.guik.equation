@@ -1,0 +1,6 @@
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Texte du logo sans fond -->
+  <text x="50%" y="50%" font-family="San Francisco, Arial, sans-serif" font-weight="bold" font-size="40" fill="black" text-anchor="middle" alignment-baseline="middle">
+    equation
+  </text>
+</svg>
