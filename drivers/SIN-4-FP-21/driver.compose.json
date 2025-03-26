@@ -17,7 +17,7 @@
   },
   "zigbee": {
     "manufacturerName": "Adeo",
-    "productId": ["SIN-4-FP-21"],
+    "productId": ["SIN-4-FP-21_EQU"],
     "endpoints": {
       "1": {
         "clusters": [0, 3, 4, 5, 6, 1794, 4096, 64512]

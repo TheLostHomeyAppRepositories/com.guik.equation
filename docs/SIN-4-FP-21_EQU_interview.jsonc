@@ -5,13 +5,13 @@
   },
   "endpoints": {
     "ieeeAddress": "88:1a:14:ff:fe:ab:16:b1",
-    "networkAddress": 41952,
+    "networkAddress": 53958,
     "modelId": "SIN-4-FP-21_EQU",
     "manufacturerName": "Adeo",
     "endpointDescriptors": [
       {
         "status": "SUCCESS",
-        "nwkAddrOfInterest": 41952,
+        "nwkAddrOfInterest": 53958,
         "_reserved": 26,
         "endpointId": 1,
         "applicationProfileId": 260,
@@ -23,7 +23,7 @@
       },
       {
         "status": "SUCCESS",
-        "nwkAddrOfInterest": 41952,
+        "nwkAddrOfInterest": 53958,
         "_reserved": 12,
         "endpointId": 242,
         "applicationProfileId": 41440,
@@ -94,7 +94,7 @@
                 "acl": ["readable", "reportable"],
                 "id": 4,
                 "name": "manufacturerName",
-                "value": "NodOn",
+                "value": "Adeo",
                 "reportingConfiguration": {
                   "status": "NOT_FOUND",
                   "direction": "reported"
@@ -104,7 +104,7 @@
                 "acl": ["readable", "reportable"],
                 "id": 5,
                 "name": "modelId",
-                "value": "SIN-4-FP-21",
+                "value": "SIN-4-FP-21_EQU",
                 "reportingConfiguration": {
                   "status": "NOT_FOUND",
                   "direction": "reported"
