@@ -7,7 +7,9 @@
   "platforms": ["local"],
   "class": "heater",
   "capabilities": [
-    "meter_power",
+    "measure_power",
+    "power_meter",
+    "meter_energy",
     "pilot_wire_mode"
   ],
   "images": {

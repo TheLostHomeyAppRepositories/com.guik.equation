@@ -1,0 +1,12 @@
+{
+    "id": "power_meter",
+    "title": {
+      "en": "Power Meter",
+      "fr": "Compteur de puissance"
+    },
+    "type": "number",
+    "units": "W",
+    "decimals": 2,
+    "getable": true,
+    "setable": false
+}

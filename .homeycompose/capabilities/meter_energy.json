@@ -1,0 +1,10 @@
+{
+    "title": {
+      "en": "Total energy consumption",
+      "fr": "Consommation totale"
+    },
+    "type": "number",
+    "units": "kWh",
+    "decimals": 3,
+    "getable": true
+  }
