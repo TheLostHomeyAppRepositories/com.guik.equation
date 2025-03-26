@@ -1,18 +1,18 @@
 {
-  "id": "net.forgebinaire.nodon",
-  "version": "2.1.0",
+  "id": "com.guik.equation",
+  "version": "1.0.0",
   "compatibility": ">=12.0.1",
   "sdk": 3,
   "platforms": [
     "local"
   ],
   "name": {
-    "en": "NodOn",
-    "fr": "NodOn"
+    "en": "Equation",
+    "fr": "Equation"
   },
   "description": {
-    "en": "NodOn specific Zigbee pilot wire device for Homey",
-    "fr": "Supporte le module de contrôlle de fil pilote de NodOn (Zigbee)"
+    "en": "Equation specific Zigbee pilot wire device for Homey",
+    "fr": "Supporte le module de contrôlle de fil pilote de Equation (Zigbee)"
   },
   "category": [
     "energy",
@@ -26,17 +26,17 @@
     "xlarge": "/assets/images/xlarge.png"
   },
   "author": {
-    "name": "Armand Abric",
-    "email": "armand@forgebinaire.net"
+    "name": "Guillaume Bisiaux",
+    "email": "bisiaux.pro@gmail.com"
   },
   "tags": {
     "en": [],
     "fr": []
   },
   "homepage": "https://www.nodon.fr/",
-  "source": "https://github.com/armandabric/net.forgebinaire.nodon",
+  "source": "https://github.com/guikbsx/com.guik.equation",
   "bugs": {
-    "url": "https://github.com/armandabric/net.forgebinaire.nodon/issues"
+    "url": "https://github.com/guikbsx/com.guik.equation/issues"
   },
-  "support": "https://github.com/armandabric/net.forgebinaire.nodon/issues"
+  "support": "https://github.com/guikbsx/com.guik.equation/issues"
 }

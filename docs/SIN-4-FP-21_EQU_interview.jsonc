@@ -1,13 +1,13 @@
 {
   "ids": {
-    "modelId": "SIN-4-FP-21",
-    "manufacturerName": "NodOn"
+    "modelId": "SIN-4-FP-21_EQU",
+    "manufacturerName": "Adeo"
   },
   "endpoints": {
-    "ieeeAddress": "d4:48:67:ff:fe:a3:12:b9",
+    "ieeeAddress": "88:1a:14:ff:fe:ab:16:b1",
     "networkAddress": 41952,
-    "modelId": "SIN-4-FP-21",
-    "manufacturerName": "NodOn",
+    "modelId": "SIN-4-FP-21_EQU",
+    "manufacturerName": "Adeo",
     "endpointDescriptors": [
       {
         "status": "SUCCESS",

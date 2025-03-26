@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Zigbee pilot wire with metering module (SIN-4-FP-21)",
-    "fr": "Module Chauffage Fil Pilote Zigbee (SIN-4-FP-21)"
+    "en": "Zigbee pilot wire with metering module (SIN-4-FP-21_EQU)",
+    "fr": "Module Chauffage Fil Pilote Zigbee (SIN-4-FP-21_EQU)"
   },
   "connectivity": ["zigbee"],
   "platforms": ["local"],
@@ -16,7 +16,7 @@
     "xlarge": "/drivers/SIN-4-FP-21/assets/images/xlarge.png"
   },
   "zigbee": {
-    "manufacturerName": "NodOn",
+    "manufacturerName": "Adeo",
     "productId": ["SIN-4-FP-21"],
     "endpoints": {
       "1": {
