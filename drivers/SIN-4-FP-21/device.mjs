@@ -33,32 +33,16 @@ export default class Device extends ZigBeeDevice {
     this.log(`➡️ Appareil initialisé: ${this.getName()} (${this.getData().id})`);
 
     try {
-      const energy = await zclNode.endpoints[1].clusters.metering.readAttributes(['currentSummationDelivered']);
-      this.log(`🔋 Consommation totale (meter_energy): ${energy.currentSummationDelivered / 1000} kWh`);
-      this.setCapabilityValue('meter_energy', energy.currentSummationDelivered / 1000);
-    } catch (err) {
-      this.error('⚠️ Erreur meter_energy:', err);
-    }
-
-    try {
-      const power = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
-      this.log(`⚡ Puissance brute (instantaneousDemand): ${power.instantaneousDemand}`);
-      this.setCapabilityValue('measure_power', power.instantaneousDemand / 10);
-    } catch (err) {
-      this.error('⚠️ Erreur measure_power:', err);
-    }
-
-    try {
       await zclNode.endpoints[1].clusters.metering.configureReporting({
         currentSummationDelivered: {
-          minInterval: 60,
+          minInterval: 30,
           maxInterval: 60,
-          minChange: 0
+          minChange: 1
         },
         instantaneousDemand: {
-          minInterval: 60,
+          minInterval: 30,
           maxInterval: 60,
-          minChange: 0
+          minChange: 1
         }
       });
       this.log('✅ Reporting automatique configuré avec succès.');
@@ -69,43 +53,59 @@ export default class Device extends ZigBeeDevice {
     this.registerCapability('pilot_wire_mode', NodOnPilotWireCluster, {
       set: 'setMode',
       setParser: (value) => {
+        this.setCapabilityValue('pilot_wire_mode', value); // garder l’état localement
         return { mode: value };
-      },
+      }
     });
 
     this.registerCapability('measure_power', MeteringCluster, {
       report: 'instantaneousDemand',
       reportParser: value => {
-        this.log(`📡 Report brut → instantaneousDemand: ${value}`);
-        return value;
+        const power = value / 10;
+        this.log(`📡 Report automatique → Puissance: ${power} W`);
+        return power;
       }
     });
 
-    setInterval(async () => {
-      try {
-        const power = await this.zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
-        const value = power.instantaneousDemand;
-        this.log(`🔄 Lecture manuelle → Puissance: ${value}`);
-        const formatted = value / 10;
-        this.log(`📥 Mise à jour Homey → measure_power = ${formatted}`);
-        this.setCapabilityValue('measure_power', formatted);
-      } catch (err) {
-        this.error('⚠️ Erreur de lecture manuelle puissance :', err);
+    this.registerCapability('meter_power', MeteringCluster, {
+      report: 'currentSummationDelivered',
+      reportParser: value => {
+        const energy = value;
+        this.log(`📊 Report automatique → Énergie: ${energy} Wh`);
+        return energy;
       }
-    }, 60000); // toutes les 60 secondes
+    });
 
-    setInterval(async () => {
+    this.powerPollingInterval = setInterval(async () => {
       try {
-        const energy = await this.zclNode.endpoints[1].clusters.metering.readAttributes(['currentSummationDelivered']);
-        const value = energy.currentSummationDelivered;
-        this.log(`🔁 Lecture manuelle → Énergie: ${value} (raw), soit ${value / 1000} kWh`);
-        const formatted = value / 1000;
-        this.log(`📥 Mise à jour Homey → meter_energy = ${formatted}`);
-        this.setCapabilityValue('meter_energy', formatted);
+        const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
+        const power = res.instantaneousDemand / 10;
+        this.log(`⚡ Mise à jour manuelle → Puissance: ${power} W`);
+        this.setCapabilityValue('measure_power', power);
       } catch (err) {
-        this.error('⚠️ Erreur de lecture manuelle énergie :', err);
+        this.error('⚠️ Lecture manuelle puissance échouée:', err);
       }
-    }, 60000); // toutes les 60 secondes
+    }, 30000); // Toutes les 30 secondes
+
+    this.energyPollingInterval = setInterval(async () => {
+      try {
+        const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['currentSummationDelivered']);
+        const energy = res.currentSummationDelivered;
+        this.log(`🔋 Mise à jour manuelle → Consommation totale: ${energy} Wh`);
+        this.setCapabilityValue('meter_power', energy);
+      } catch (err) {
+        this.error('⚠️ Lecture manuelle énergie échouée:', err);
+      }
+    }, 30000); // Toutes les 30 secondes
+  }
+
+  onDeleted() {
+    if (this.powerPollingInterval) {
+      clearInterval(this.powerPollingInterval);
+    }
+    if (this.energyPollingInterval) {
+      clearInterval(this.energyPollingInterval);
+    }
   }
 
 }

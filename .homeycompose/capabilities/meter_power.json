@@ -1,0 +1,12 @@
+{
+  "title": {
+    "en": "Total Consumption",
+    "fr": "Consommation totale"
+  },
+  "type": "number",
+  "units": "Wh",
+  "chartType": "line",
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

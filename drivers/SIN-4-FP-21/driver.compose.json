@@ -8,7 +8,7 @@
   "class": "heater",
   "capabilities": [
     "measure_power",
-    "meter_energy",
+    "meter_power",
     "pilot_wire_mode"
   ],
   "images": {
