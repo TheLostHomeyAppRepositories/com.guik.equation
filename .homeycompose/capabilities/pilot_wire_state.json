@@ -1,0 +1,10 @@
+{
+    "title": {
+      "en": "Display Mode",
+      "fr": "Mode affiché"
+    },
+    "type": "string",
+    "getable": true,
+    "setable": true,
+    "uiComponent": "sensor"
+  }

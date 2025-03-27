@@ -136,9 +136,12 @@
       "capabilities": [
         "measure_power",
         "meter_power",
-        "pilot_wire_mode",
-        "onoff"
+        "pilot_wire_state",
+        "pilot_wire_mode"
       ],
+      "displayOptions": {
+        "state": "pilot_wire_state"
+      },
       "images": {
         "small": "/drivers/SIN-4-FP-21/assets/images/small.png",
         "large": "/drivers/SIN-4-FP-21/assets/images/large.png",
@@ -268,16 +271,6 @@
       "setable": false,
       "uiComponent": "sensor"
     },
-    "onoff": {
-      "title": {
-        "en": "On/Off",
-        "fr": "Marche / Arrêt"
-      },
-      "type": "boolean",
-      "getable": true,
-      "setable": true,
-      "uiComponent": "toggle"
-    },
     "pilot_wire_mode": {
       "type": "enum",
       "title": {
@@ -331,6 +324,16 @@
           }
         }
       ]
+    },
+    "pilot_wire_state": {
+      "title": {
+        "en": "Display Mode",
+        "fr": "Mode affiché"
+      },
+      "type": "string",
+      "getable": true,
+      "setable": true,
+      "uiComponent": "sensor"
     }
   }
 }

@@ -59,7 +59,16 @@ export default class Device extends ZigBeeDevice {
           this.lastKnownMode = value;
         }
         this.setCapabilityValue('pilot_wire_mode', value); // garder l’état localement
-        this.setCapabilityValue('onoff', value !== 'off');
+
+        const labels = {
+          "eco": "Eco",
+          "off": "Off",
+          "confort": "Conf.",
+          "confort_-1": "Conf. -1",
+          "confort_-2": "Conf. -2",
+          "frost_protection": "HG"
+        };
+        this.setCapabilityValue("pilot_wire_state", labels[value] || value);        
         return { mode: value };
       }
     });
@@ -77,7 +86,6 @@ export default class Device extends ZigBeeDevice {
         await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: lastMode });
         this.setCapabilityValue('pilot_wire_mode', lastMode);
       }
-      this.setCapabilityValue('onoff', value);
     });
 
     this.registerCapability('measure_power', MeteringCluster, {
@@ -124,8 +132,17 @@ export default class Device extends ZigBeeDevice {
     this.log(`🌿 Démarrage → Aucun mode actif, on force sur "${defaultMode}"`);
     await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
     this.setCapabilityValue('pilot_wire_mode', defaultMode);
-    this.setCapabilityValue('onoff', defaultMode !== 'off');
     this.lastKnownMode = defaultMode;
+
+    const labels = {
+      "eco": "Eco",
+      "off": "Off",
+      "confort": "Conf.",
+      "confort_-1": "Conf. -1",
+      "confort_-2": "Conf. -2",
+      "frost_protection": "HG"
+    };
+    this.setCapabilityValue('pilot_wire_state', labels[defaultMode] || defaultMode);
   }
 
   onDeleted() {
