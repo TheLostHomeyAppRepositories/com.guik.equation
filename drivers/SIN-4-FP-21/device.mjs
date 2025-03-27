@@ -3,7 +3,7 @@ import ZigBee from 'zigbee-clusters';
 
 // eslint-disable-next-line import/extensions
 import NodOnPilotWireCluster from './NodOnPilotWireCluster.mjs';
-import MeteringCluster from './MeteringCluster.js';
+import MeteringCluster from './MeteringCluster.mjs';
 
 const { debug } = ZigBee;
 
