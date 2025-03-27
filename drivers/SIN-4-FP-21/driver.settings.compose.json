@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "powerCorrectionFactor",
+    "type": "number",
+    "label": {
+      "en": "Power Correction Factor",
+      "fr": "Facteur de correction puissance"
+    },
+    "hint": {
+      "en": "Multiply raw power value by this factor. Default is 1.",
+      "fr": "Multiplie la valeur brute de puissance par ce facteur. Par défaut : 1."
+    },
+    "value": 1
+  }
+]

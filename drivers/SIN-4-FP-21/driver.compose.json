@@ -10,7 +10,8 @@
   "capabilities": [
     "measure_power",
     "meter_power",
-    "pilot_wire_mode"
+    "pilot_wire_mode",
+    "onoff"
   ],
   "images": {
     "small": "/drivers/SIN-4-FP-21/assets/images/small.png",

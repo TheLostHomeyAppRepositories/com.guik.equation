@@ -30,6 +30,8 @@ export default class Device extends ZigBeeDevice {
     this.enableDebug();
     this.printNode();
 
+    this.powerCorrectionFactor = 1; // Modifier ici si nécessaire
+
     this.log(`➡️ Appareil initialisé: ${this.getName()} (${this.getData().id})`);
 
     try {
@@ -53,16 +55,36 @@ export default class Device extends ZigBeeDevice {
     this.registerCapability('pilot_wire_mode', NodOnPilotWireCluster, {
       set: 'setMode',
       setParser: (value) => {
+        if (value !== 'off') {
+          this.lastKnownMode = value;
+        }
         this.setCapabilityValue('pilot_wire_mode', value); // garder l’état localement
+        this.setCapabilityValue('onoff', value !== 'off');
         return { mode: value };
       }
+    });
+
+    this.registerCapabilityListener('onoff', async (value) => {
+      const currentMode = this.getCapabilityValue('pilot_wire_mode');
+      if (value === false) {
+        this.log('🔌 Éteindre → Envoi du mode OFF');
+        await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: 'off' });
+        this.setCapabilityValue('pilot_wire_mode', 'off');
+      } else {
+        // Restaurer le dernier mode connu (hors 'off'), ou 'confort' par défaut
+        const lastMode = this.lastKnownMode && this.lastKnownMode !== 'off' ? this.lastKnownMode : 'confort';
+        this.log(`🔌 Allumer → Restaure le mode précédent: ${lastMode}`);
+        await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: lastMode });
+        this.setCapabilityValue('pilot_wire_mode', lastMode);
+      }
+      this.setCapabilityValue('onoff', value);
     });
 
     this.registerCapability('measure_power', MeteringCluster, {
       report: 'instantaneousDemand',
       reportParser: value => {
-        const power = value / 10;
-        this.log(`📡 Report automatique → Puissance: ${power} W`);
+        const power = value * this.powerCorrectionFactor;
+        this.log(`📡 Report automatique → Puissance corrigée: ${power} W`);
         return power;
       }
     });
@@ -79,8 +101,8 @@ export default class Device extends ZigBeeDevice {
     this.powerPollingInterval = setInterval(async () => {
       try {
         const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
-        const power = res.instantaneousDemand / 10;
-        this.log(`⚡ Mise à jour manuelle → Puissance: ${power} W`);
+        const power = res.instantaneousDemand * this.powerCorrectionFactor;
+        this.log(`⚡ Mise à jour manuelle → Puissance corrigée: ${power} W`);
         this.setCapabilityValue('measure_power', power);
       } catch (err) {
         this.error('⚠️ Lecture manuelle puissance échouée:', err);
@@ -97,6 +119,16 @@ export default class Device extends ZigBeeDevice {
         this.error('⚠️ Lecture manuelle énergie échouée:', err);
       }
     }, 30000); // Toutes les 30 secondes
+
+    const currentMode = this.getCapabilityValue('pilot_wire_mode');
+    if (!currentMode || currentMode === 'off') {
+      const defaultMode = 'eco';
+      this.log(`🌿 Démarrage → Aucun mode actif, on force sur "${defaultMode}"`);
+      await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
+      this.setCapabilityValue('pilot_wire_mode', defaultMode);
+      this.setCapabilityValue('onoff', true);
+      this.lastKnownMode = defaultMode;
+    }
   }
 
   onDeleted() {

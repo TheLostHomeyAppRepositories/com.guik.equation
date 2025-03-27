@@ -136,7 +136,8 @@
       "capabilities": [
         "measure_power",
         "meter_power",
-        "pilot_wire_mode"
+        "pilot_wire_mode",
+        "onoff"
       ],
       "images": {
         "small": "/drivers/SIN-4-FP-21/assets/images/small.png",
@@ -168,7 +169,21 @@
           }
         }
       },
-      "settings": []
+      "settings": [
+        {
+          "id": "powerCorrectionFactor",
+          "type": "number",
+          "label": {
+            "en": "Power Correction Factor",
+            "fr": "Facteur de correction puissance"
+          },
+          "hint": {
+            "en": "Multiply raw power value by this factor. Default is 1.",
+            "fr": "Multiplie la valeur brute de puissance par ce facteur. Par défaut : 1."
+          },
+          "value": 1
+        }
+      ]
     }
   ],
   "capabilities": {
@@ -195,6 +210,16 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor"
+    },
+    "onoff": {
+      "title": {
+        "en": "On/Off",
+        "fr": "Marche / Arrêt"
+      },
+      "type": "boolean",
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle"
     },
     "pilot_wire_mode": {
       "type": "enum",

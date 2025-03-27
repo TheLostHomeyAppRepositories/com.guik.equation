@@ -1,0 +1,10 @@
+{
+    "title": {
+      "en": "On/Off",
+      "fr": "Marche / Arrêt"
+    },
+    "type": "boolean",
+    "getable": true,
+    "setable": true,
+    "uiComponent": "toggle"
+  }
