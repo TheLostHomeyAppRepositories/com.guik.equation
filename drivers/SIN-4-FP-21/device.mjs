@@ -9,31 +9,19 @@ const { debug } = ZigBee;
 
 debug(true);
 
-/**
- * > Maybe a clue to change heat mode (but I can't test because I don't have the device yet).
- * > Nodon have an other device to manage pilot wire heater but with enocean protocol.
- * > On the enocean device to change the heating mode you just have to use the same command as to turn your heater on/off, but send different values. Maybe the zigbee device works the same way:
- * > 0 for Off, 1 for Comfort, 2 for Eco, 3 for Anti-Freeze, 4 for Comfort-1 and 5 for Comfort-2.
- *
- * @see https://github.com/Koenkk/zigbee2mqtt/issues/19169#issuecomment-1750990161
- */
-// "values": [["confort",1],["confort-1",4],["confort-2",5],["confort-2",3],["eco",2],["hors gel",3],["off",0]],
-
-/**
- * Brand: NodOn
- * Product id: SIN-4-FP-21_EQU
- * EAN: 3700313925584
- */
 export default class Device extends ZigBeeDevice {
 
   async onNodeInit({ zclNode }) {
+    
+    // 🔧 Initialization and debug
     this.enableDebug();
     this.printNode();
 
     this.powerCorrectionFactor = 1; // Modifier ici si nécessaire
 
-    this.log(`➡️ Appareil initialisé: ${this.getName()} (${this.getData().id})`);
+    this.log(`➡️ Device initialized: ${this.getName()} (${this.getData().id})`);
 
+    // ⚡️ Automatic reporting configuration
     try {
       await zclNode.endpoints[1].clusters.metering.configureReporting({
         currentSummationDelivered: {
@@ -47,18 +35,19 @@ export default class Device extends ZigBeeDevice {
           minChange: 1
         }
       });
-      this.log('✅ Reporting automatique configuré avec succès.');
+      this.log('✅ Automatic reporting successfully configured.');
     } catch (err) {
-      this.error('⚠️ Erreur lors de la configuration du reporting automatique :', err);
+      this.error('⚠️ Error while configuring automatic reporting:', err);
     }
 
+    // 🔁 Capabilities registration
     this.registerCapability('pilot_wire_mode', NodOnPilotWireCluster, {
       set: 'setMode',
       setParser: (value) => {
         if (value !== 'off') {
           this.lastKnownMode = value;
         }
-        this.setCapabilityValue('pilot_wire_mode', value); // garder l’état localement
+        this.setCapabilityValue('pilot_wire_mode', value); // keep state locally
 
         const labels = {
           "eco": "Eco",
@@ -69,22 +58,6 @@ export default class Device extends ZigBeeDevice {
           "frost_protection": "HG"
         };
         this.setCapabilityValue("pilot_wire_state", labels[value] || value);        
-        return { mode: value };
-      }
-    });
-
-    this.registerCapabilityListener('onoff', async (value) => {
-      const currentMode = this.getCapabilityValue('pilot_wire_mode');
-      if (value === false) {
-        this.log('🔌 Éteindre → Envoi du mode OFF');
-        await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: 'off' });
-        this.setCapabilityValue('pilot_wire_mode', 'off');
-      } else {
-        // Restaurer le dernier mode connu (hors 'off'), ou 'confort' par défaut
-        const lastMode = this.lastKnownMode && this.lastKnownMode !== 'off' ? this.lastKnownMode : 'confort';
-        this.log(`🔌 Allumer → Restaure le mode précédent: ${lastMode}`);
-        await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: lastMode });
-        this.setCapabilityValue('pilot_wire_mode', lastMode);
       }
     });
 
@@ -92,7 +65,7 @@ export default class Device extends ZigBeeDevice {
       report: 'instantaneousDemand',
       reportParser: value => {
         const power = value * this.powerCorrectionFactor;
-        this.log(`📡 Report automatique → Puissance corrigée: ${power} W`);
+        this.log(`📡 Automatic report → Corrected power: ${power} W`);
         return power;
       }
     });
@@ -101,35 +74,37 @@ export default class Device extends ZigBeeDevice {
       report: 'currentSummationDelivered',
       reportParser: value => {
         const energy = value;
-        this.log(`📊 Report automatique → Énergie: ${energy} Wh`);
+        this.log(`📊 Automatic report → Energy: ${energy} Wh`);
         return energy;
       }
     });
 
+    // 🔁 Periodic update (polling)
     this.powerPollingInterval = setInterval(async () => {
       try {
         const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
         const power = res.instantaneousDemand * this.powerCorrectionFactor;
-        this.log(`⚡ Mise à jour manuelle → Puissance corrigée: ${power} W`);
+        this.log(`⚡ Manual update → Corrected power: ${power} W`);
         this.setCapabilityValue('measure_power', power);
       } catch (err) {
-        this.error('⚠️ Lecture manuelle puissance échouée:', err);
+        this.error('⚠️ Manual power read failed:', err);
       }
-    }, 30000); // Toutes les 30 secondes
+    }, 30000); // Every 30 seconds
 
     this.energyPollingInterval = setInterval(async () => {
       try {
         const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['currentSummationDelivered']);
         const energy = res.currentSummationDelivered;
-        this.log(`🔋 Mise à jour manuelle → Consommation totale: ${energy} Wh`);
+        this.log(`🔋 Manual update → Total consumption: ${energy} Wh`);
         this.setCapabilityValue('meter_power', energy);
       } catch (err) {
-        this.error('⚠️ Lecture manuelle énergie échouée:', err);
+        this.error('⚠️ Manual energy read failed:', err);
       }
-    }, 30000); // Toutes les 30 secondes
+    }, 30000); // Every 30 seconds
 
+    // 🚀 Default startup mode
     const defaultMode = this.getSetting('defaultStartupMode') || 'eco';
-    this.log(`🌿 Démarrage → Aucun mode actif, on force sur "${defaultMode}"`);
+    this.log(`🌿 Startup → No active mode detected, forcing "${defaultMode}"`);
     await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
     this.setCapabilityValue('pilot_wire_mode', defaultMode);
     this.lastKnownMode = defaultMode;
@@ -153,5 +128,4 @@ export default class Device extends ZigBeeDevice {
       clearInterval(this.energyPollingInterval);
     }
   }
-
 }
