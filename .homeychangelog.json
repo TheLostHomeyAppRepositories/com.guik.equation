@@ -19,5 +19,8 @@
   },
   "1.2.2": {
     "en": "Update driver name (_EQU)"
+  },
+  "1.2.3": {
+    "en": "Fix with old name driver"
   }
 }
