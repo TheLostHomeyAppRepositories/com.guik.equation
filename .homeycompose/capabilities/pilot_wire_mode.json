@@ -18,36 +18,36 @@
     {
       "id": "confort",
       "title": {
-        "en": "Confort",
+        "en": "Comfort",
         "fr": "Confort"
       }
     },
     {
       "id": "eco",
       "title": {
-        "en": "Eco (-3°C)",
-        "fr": "Éco (-3°C)"
+        "en": "Eco",
+        "fr": "Éco"
       }
     },
     {
       "id": "frost_protection",
       "title": {
-        "en": "Frost free (~8°C)",
-        "nl": "Hors-gel (~8°C)"
+        "en": "Frost free",
+        "nl": "Hors gel"
       }
     },
     {
       "id": "confort_-1",
       "title": {
-        "en": "Confort (-1°C)",
-        "fr": "Confort (-1°C)"
+        "en": "Comfort -1°C",
+        "fr": "Confort -1°C"
       }
     },
     {
       "id": "confort_-2",
       "title": {
-        "en": "Confort (-2°C)",
-        "fr": "Confort (-2°C)"
+        "en": "Comfort -2°C",
+        "fr": "Confort -2°C"
       }
     }
   ]

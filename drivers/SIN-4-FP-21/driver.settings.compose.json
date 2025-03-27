@@ -11,5 +11,26 @@
       "fr": "Multiplie la valeur brute de puissance par ce facteur. Par défaut : 1."
     },
     "value": 1
+  },
+  {
+    "id": "defaultStartupMode",
+    "type": "dropdown",
+    "label": {
+      "en": "Startup Mode",
+      "fr": "Mode au démarrage"
+    },
+    "hint": {
+      "en": "The mode to apply when the device starts.",
+      "fr": "Le mode à appliquer au démarrage de l'appareil."
+    },
+    "value": "eco",
+    "values": [
+      { "id": "off", "label": { "en": "Off", "fr": "Arrêt" } },
+      { "id": "eco", "label": { "en": "Eco", "fr": "Éco" } },
+      { "id": "confort", "label": { "en": "Comfort", "fr": "Confort" } },
+      { "id": "confort_-1", "label": { "en": "Comfort -1°C", "fr": "Confort -1°C" } },
+      { "id": "confort_-2", "label": { "en": "Comfort -2°C", "fr": "Confort -2°C" } },
+      { "id": "frost_protection", "label": { "en": "Frost protection", "fr": "Hors-gel" } }
+    ]
   }
 ]

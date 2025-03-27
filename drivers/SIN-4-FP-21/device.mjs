@@ -120,15 +120,12 @@ export default class Device extends ZigBeeDevice {
       }
     }, 30000); // Toutes les 30 secondes
 
-    const currentMode = this.getCapabilityValue('pilot_wire_mode');
-    if (!currentMode || currentMode === 'off') {
-      const defaultMode = 'eco';
-      this.log(`🌿 Démarrage → Aucun mode actif, on force sur "${defaultMode}"`);
-      await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
-      this.setCapabilityValue('pilot_wire_mode', defaultMode);
-      this.setCapabilityValue('onoff', true);
-      this.lastKnownMode = defaultMode;
-    }
+    const defaultMode = this.getSetting('defaultStartupMode') || 'eco';
+    this.log(`🌿 Démarrage → Aucun mode actif, on force sur "${defaultMode}"`);
+    await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
+    this.setCapabilityValue('pilot_wire_mode', defaultMode);
+    this.setCapabilityValue('onoff', defaultMode !== 'off');
+    this.lastKnownMode = defaultMode;
   }
 
   onDeleted() {
