@@ -1,12 +1,11 @@
 {
     "title": {
-      "en": "Total energy consumption",
-      "fr": "Consommation totale"
+      "en": "Power",
+      "fr": "Puissance"
     },
     "type": "number",
-    "units": "kWh",
+    "units": "W",
     "chartType": "line",
-    "decimals": 3,
     "getable": true,
     "setable": false,
     "uiComponent": "sensor"

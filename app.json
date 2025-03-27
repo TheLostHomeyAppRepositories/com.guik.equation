@@ -134,7 +134,6 @@
       "class": "heater",
       "capabilities": [
         "measure_power",
-        "power_meter",
         "meter_energy",
         "pilot_wire_mode"
       ],
@@ -173,6 +172,18 @@
     }
   ],
   "capabilities": {
+    "measure_power": {
+      "title": {
+        "en": "Power",
+        "fr": "Puissance"
+      },
+      "type": "number",
+      "units": "W",
+      "chartType": "line",
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
     "meter_energy": {
       "title": {
         "en": "Total energy consumption",
@@ -180,8 +191,11 @@
       },
       "type": "number",
       "units": "kWh",
+      "chartType": "line",
       "decimals": 3,
-      "getable": true
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
     },
     "pilot_wire_mode": {
       "type": "enum",
@@ -245,9 +259,10 @@
       },
       "type": "number",
       "units": "W",
-      "decimals": 2,
+      "chartType": "line",
       "getable": true,
-      "setable": false
+      "setable": false,
+      "uiComponent": "sensor"
     }
   }
 }

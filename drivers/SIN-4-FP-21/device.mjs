@@ -80,17 +80,6 @@ export default class Device extends ZigBeeDevice {
         return value;
       }
     });
-    
-    /*
-    this.registerCapability('meter_energy', MeteringCluster, {
-      report: 'currentSummationDelivered',
-      reportParser: value => {
-        const energy = value / 1000;
-        this.log(`📊 Mise à jour automatique → énergie: ${energy} kWh`);
-        return energy;
-      }
-    });
-    */
 
     setInterval(async () => {
       try {

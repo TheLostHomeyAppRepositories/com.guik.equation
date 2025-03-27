@@ -6,7 +6,8 @@
     },
     "type": "number",
     "units": "W",
-    "decimals": 2,
+    "chartType": "line",
     "getable": true,
-    "setable": false
+    "setable": false,
+    "uiComponent": "sensor"
 }

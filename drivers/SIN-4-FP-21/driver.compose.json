@@ -8,7 +8,6 @@
   "class": "heater",
   "capabilities": [
     "measure_power",
-    "power_meter",
     "meter_energy",
     "pilot_wire_mode"
   ],
