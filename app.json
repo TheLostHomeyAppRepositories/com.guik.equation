@@ -61,7 +61,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=SIN-4-FP-21_EQU"
+            "filter": "driver_id=SIN-4-FP-21"
           },
           {
             "type": "dropdown",
@@ -125,7 +125,7 @@
         "en": "Zigbee pilot wire with metering module (SIN-4-FP-21_EQU)",
         "fr": "Module Chauffage Fil Pilote Zigbee (SIN-4-FP-21_EQU)"
       },
-      "id": "SIN-4-FP-21_EQU",
+      "id": "SIN-4-FP-21",
       "connectivity": [
         "zigbee"
       ],
@@ -139,9 +139,9 @@
         "pilot_wire_mode"
       ],
       "images": {
-        "small": "/drivers/SIN-4-FP-21_EQU/assets/images/small.png",
-        "large": "/drivers/SIN-4-FP-21_EQU/assets/images/large.png",
-        "xlarge": "/drivers/SIN-4-FP-21_EQU/assets/images/xlarge.png"
+        "small": "/drivers/SIN-4-FP-21/assets/images/small.png",
+        "large": "/drivers/SIN-4-FP-21/assets/images/large.png",
+        "xlarge": "/drivers/SIN-4-FP-21/assets/images/xlarge.png"
       },
       "zigbee": {
         "manufacturerName": "Adeo",

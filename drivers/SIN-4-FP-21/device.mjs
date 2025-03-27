@@ -21,7 +21,7 @@ debug(true);
 
 /**
  * Brand: NodOn
- * Product id: SIN-4-FP-21
+ * Product id: SIN-4-FP-21_EQU
  * EAN: 3700313925584
  */
 export default class Device extends ZigBeeDevice {
