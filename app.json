@@ -265,7 +265,7 @@
         "fr": "Consommation totale"
       },
       "type": "number",
-      "units": "Wh",
+      "units": "kWh",
       "chartType": "line",
       "getable": true,
       "setable": false,
@@ -286,11 +286,19 @@
           "title": {
             "en": "Stop",
             "fr": "Arrêt"
+          },
+          "titleFormatted": {
+            "en": "Off",
+            "fr": "Arrêt"
           }
         },
         {
           "id": "confort",
           "title": {
+            "en": "Comfort",
+            "fr": "Confort"
+          },
+          "titleFormatted": {
             "en": "Comfort",
             "fr": "Confort"
           }
@@ -300,13 +308,21 @@
           "title": {
             "en": "Eco",
             "fr": "Éco"
+          },
+          "titleFormatted": {
+            "en": "Eco",
+            "fr": "Éco"
           }
         },
         {
           "id": "frost_protection",
           "title": {
             "en": "Frost free",
-            "nl": "Hors gel"
+            "fr": "Hors-gel"
+          },
+          "titleFormatted": {
+            "en": "Frost free",
+            "fr": "Hors-gel"
           }
         },
         {
@@ -314,11 +330,19 @@
           "title": {
             "en": "Comfort -1°C",
             "fr": "Confort -1°C"
+          },
+          "titleFormatted": {
+            "en": "Comfort -1°C",
+            "fr": "Confort -1°C"
           }
         },
         {
           "id": "confort_-2",
           "title": {
+            "en": "Comfort -2°C",
+            "fr": "Confort -2°C"
+          },
+          "titleFormatted": {
             "en": "Comfort -2°C",
             "fr": "Confort -2°C"
           }

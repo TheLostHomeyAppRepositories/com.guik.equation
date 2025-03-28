@@ -2,6 +2,7 @@ import { ZigBeeDevice } from 'homey-zigbeedriver';
 import ZigBee from 'zigbee-clusters';
 
 // eslint-disable-next-line import/extensions
+import { getPilotWireLabel, getPilotWireShortLabel } from './PilotWireLabel.mjs';
 import NodOnPilotWireCluster from './NodOnPilotWireCluster.mjs';
 import MeteringCluster from './MeteringCluster.mjs';
 
@@ -10,14 +11,17 @@ const { debug } = ZigBee;
 debug(true);
 
 export default class Device extends ZigBeeDevice {
+  constructor(...args) {
+    super(...args);
+    this.hasRegisteredPilotWireFlowAction = false; // Flag to ensure flow action is registered only once
+  }
 
   async onNodeInit({ zclNode }) {
-    
+    this.log('🚀 Starting device initialization...');
+
     // 🔧 Initialization and debug
     this.enableDebug();
     this.printNode();
-
-    this.powerCorrectionFactor = 1; // Modifier ici si nécessaire
 
     this.log(`➡️ Device initialized: ${this.getName()} (${this.getData().id})`);
 
@@ -40,84 +44,101 @@ export default class Device extends ZigBeeDevice {
       this.error('⚠️ Error while configuring automatic reporting:', err);
     }
 
+    // Read energy divisor
+    try {
+      const attrs = await zclNode.endpoints[1].clusters.metering.readAttributes(['divisor']);
+      this.energyDivisor = attrs.divisor ?? 1000;
+      this.log(`🔢 Energy divisor read: ÷${this.energyDivisor}`);
+    } catch (err) {
+      this.error('❌ Failed to read energy divisor:', err);
+      this.energyDivisor = 1000;
+    }
+
     // 🔁 Capabilities registration
     this.registerCapability('pilot_wire_mode', NodOnPilotWireCluster, {
       set: 'setMode',
       setParser: (value) => {
+        this.log(`🧭 Picker triggered with: ${value}`);
         if (value !== 'off') {
           this.lastKnownMode = value;
         }
-        this.setCapabilityValue('pilot_wire_mode', value); // keep state locally
 
-        const labels = {
-          "eco": "Eco",
-          "off": "Off",
-          "confort": "Conf.",
-          "confort_-1": "Conf. -1",
-          "confort_-2": "Conf. -2",
-          "frost_protection": "HG"
-        };
-        this.setCapabilityValue("pilot_wire_state", labels[value] || value);        
+        this.setCapabilityValue('pilot_wire_mode', value);
+        this.setCapabilityValue('pilot_wire_state', getPilotWireShortLabel(value));
+
+        return { mode: value };
       }
     });
 
     this.registerCapability('measure_power', MeteringCluster, {
+      get: 'instantaneousDemand',
+      getOpts: {
+        getOnStart: true,
+      },
       report: 'instantaneousDemand',
       reportParser: value => {
-        const power = value * this.powerCorrectionFactor;
+        const power = value;
         this.log(`📡 Automatic report → Corrected power: ${power} W`);
         return power;
       }
     });
 
     this.registerCapability('meter_power', MeteringCluster, {
+      get: 'currentSummationDelivered',
+      getOpts: {
+        getOnStart: true,
+      },
       report: 'currentSummationDelivered',
       reportParser: value => {
-        const energy = value;
-        this.log(`📊 Automatic report → Energy: ${energy} Wh`);
+        const energy = value / this.energyDivisor;
+        this.log(`📊 Automatic report → Energy: ${energy} kWh`);
         return energy;
       }
     });
 
     // 🔁 Periodic update (polling)
-    this.powerPollingInterval = setInterval(async () => {
+    /**
+     * Forces an update of power and energy capabilities to ensure they are logged in Homey Insights.
+     * This is useful when no automatic report is triggered for a while.
+     */
+    this.updateInsights = async () => {
       try {
-        const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand']);
-        const power = res.instantaneousDemand * this.powerCorrectionFactor;
-        this.log(`⚡ Manual update → Corrected power: ${power} W`);
-        this.setCapabilityValue('measure_power', power);
-      } catch (err) {
-        this.error('⚠️ Manual power read failed:', err);
-      }
-    }, 30000); // Every 30 seconds
+        const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['instantaneousDemand', 'currentSummationDelivered']);
 
-    this.energyPollingInterval = setInterval(async () => {
-      try {
-        const res = await zclNode.endpoints[1].clusters.metering.readAttributes(['currentSummationDelivered']);
-        const energy = res.currentSummationDelivered;
-        this.log(`🔋 Manual update → Total consumption: ${energy} Wh`);
-        this.setCapabilityValue('meter_power', energy);
+        const power = res.instantaneousDemand;
+        const total = res.currentSummationDelivered;
+
+        if (typeof power === 'number') {
+          this.setCapabilityValue('measure_power', power);
+          this.log(`🕒 Insight update → Power: ${power} W`);
+        }
+
+        if (typeof total === 'number') {
+          this.setCapabilityValue('meter_power', total / this.energyDivisor);
+          this.log(`🕒 Insight update → Total energy: ${total / this.energyDivisor} kWh`);
+        }
       } catch (err) {
-        this.error('⚠️ Manual energy read failed:', err);
+        this.error('⚠️ Insight update failed:', err);
       }
-    }, 30000); // Every 30 seconds
+    };
+
+    // Schedule updates every minute
+    this.insightForceInterval = setInterval(this.updateInsights, 60000);
 
     // 🚀 Default startup mode
-    const defaultMode = this.getSetting('defaultStartupMode') || 'eco';
-    this.log(`🌿 Startup → No active mode detected, forcing "${defaultMode}"`);
-    await this.zclNode.endpoints[1].clusters.pilotWire.setMode({ mode: defaultMode });
-    this.setCapabilityValue('pilot_wire_mode', defaultMode);
-    this.lastKnownMode = defaultMode;
+    this.log('🌿 Startup → No mode set at boot, waiting for report or user interaction.');
 
-    const labels = {
-      "eco": "Eco",
-      "off": "Off",
-      "confort": "Conf.",
-      "confort_-1": "Conf. -1",
-      "confort_-2": "Conf. -2",
-      "frost_protection": "HG"
-    };
-    this.setCapabilityValue('pilot_wire_state', labels[defaultMode] || defaultMode);
+    /// 🎯 Flow Action — Set the pilot wire mode from a flow
+    if (this.hasRegisteredPilotWireFlowAction) return;
+    this.homey.flow
+      .getActionCard('pilot-wire-mode-action')
+      .registerRunListener(async ({ mode }) => {
+        this.log(`⚙️ Flow action → Setting pilot wire mode to: ${getPilotWireLabel(mode, this.homey.i18n.getLanguage())}`);
+        await this.setCapabilityValue('pilot_wire_mode', mode);
+        this.setCapabilityValue('pilot_wire_state', getPilotWireShortLabel(mode));
+        return true;
+      });
+    this.hasRegisteredPilotWireFlowAction = true;
   }
 
   onDeleted() {
@@ -126,6 +147,9 @@ export default class Device extends ZigBeeDevice {
     }
     if (this.energyPollingInterval) {
       clearInterval(this.energyPollingInterval);
+    }
+    if (this.insightForceInterval) {
+      clearInterval(this.insightForceInterval);
     }
   }
 }
