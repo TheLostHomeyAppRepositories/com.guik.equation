@@ -1,41 +1,41 @@
 export const PilotWireLabel = {
     "off": {
-      short: "🟥 Off",
+      short: "Off",
       long: {
         en: "Off",
         fr: "Arrêt"
       }
     },
     "eco": {
-      short: "🟩 Eco",
+      short: "Eco",
       long: {
         en: "Eco",
         fr: "Éco"
       }
     },
     "confort": {
-      short: "🟠 Conf.",
+      short: "Conf.",
       long: {
         en: "Comfort",
         fr: "Confort"
       }
     },
     "confort_-1": {
-      short: "🟧 Conf. -1",
+      short: "Conf. -1",
       long: {
         en: "Comfort -1°C",
         fr: "Confort -1°C"
       }
     },
     "confort_-2": {
-      short: "🟧 Conf. -2",
+      short: "Conf. -2",
       long: {
         en: "Comfort -2°C",
         fr: "Confort -2°C"
       }
     },
     "frost_protection": {
-      short: "🟦 HG",
+      short: "Hors Gel",
       long: {
         en: "Frost protection",
         fr: "Hors-gel"

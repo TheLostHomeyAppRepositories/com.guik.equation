@@ -13,7 +13,6 @@ debug(true);
 export default class Device extends ZigBeeDevice {
   constructor(...args) {
     super(...args);
-    this.hasRegisteredPilotWireFlowAction = false; // Flag to ensure flow action is registered only once
   }
 
   async onNodeInit({ zclNode }) {
@@ -59,10 +58,6 @@ export default class Device extends ZigBeeDevice {
       set: 'setMode',
       setParser: (value) => {
         this.log(`🧭 Picker triggered with: ${value}`);
-        if (value !== 'off') {
-          this.lastKnownMode = value;
-        }
-
         this.setCapabilityValue('pilot_wire_mode', value);
         this.setCapabilityValue('pilot_wire_state', getPilotWireShortLabel(value));
 
@@ -128,17 +123,13 @@ export default class Device extends ZigBeeDevice {
     // 🚀 Default startup mode
     this.log('🌿 Startup → No mode set at boot, waiting for report or user interaction.');
 
-    /// 🎯 Flow Action — Set the pilot wire mode from a flow
-    if (this.hasRegisteredPilotWireFlowAction) return;
-    this.homey.flow
-      .getActionCard('pilot-wire-mode-action')
-      .registerRunListener(async ({ mode }) => {
-        this.log(`⚙️ Flow action → Setting pilot wire mode to: ${getPilotWireLabel(mode, this.homey.i18n.getLanguage())}`);
-        await this.setCapabilityValue('pilot_wire_mode', mode);
-        this.setCapabilityValue('pilot_wire_state', getPilotWireShortLabel(mode));
-        return true;
-      });
-    this.hasRegisteredPilotWireFlowAction = true;
+    /*
+    const actionAlarmDuration = this.homey.flow.getActionCard('alarm_duration');
+    actionAlarmDuration.registerRunListener(async (args, state) => {
+      this.log('FlowCardAction Set Alarm Duration to: ', args.duration);
+      this.sendAlarmDuration(args.duration);
+    });
+    */
   }
 
   onDeleted() {
