@@ -17,9 +17,9 @@
     "state": "pilot_wire_state"
   },
   "images": {
-    "small": "/drivers/SIN-4-FP-21/assets/images/small.png",
-    "large": "/drivers/SIN-4-FP-21/assets/images/large.png",
-    "xlarge": "/drivers/SIN-4-FP-21/assets/images/xlarge.png"
+    "small": "/drivers/SIN-4-FP-21/assets/images/small.jpeg",
+    "large": "/drivers/SIN-4-FP-21/assets/images/large.jpeg",
+    "xlarge": "/drivers/SIN-4-FP-21/assets/images/xlarge.jpeg"
   },
   "zigbee": {
     "manufacturerName": "Adeo",

@@ -13,7 +13,7 @@
   },
   "description": {
     "en": "Equation specific Zigbee pilot wire device for Homey",
-    "fr": "Supporte le module de contrôlle de fil pilote de Equation (Zigbee)"
+    "fr": "Simply feeling good at home"
   },
   "category": [
     "energy",
@@ -40,7 +40,6 @@
     "url": "https://github.com/guikbsx/com.guik.equation/issues"
   },
   "support": "https://github.com/guikbsx/com.guik.equation/issues",
-  "esm": true,
   "flow": {
     "actions": [
       {

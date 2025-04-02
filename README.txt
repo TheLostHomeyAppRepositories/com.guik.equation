@@ -1,6 +1,6 @@
-# Equation
+This app adds support for the Equation® Zigbee Pilot Wire Heating Module (SIN-4-FP-21_EQU) to Homey.
 
-NodOn® is a French company specialized in radio products for connected housing and connected buildings.
-Equation® is a rebranded Leroy Merlin product rebranded Nodon®.
+Equation® is a brand by Adeo, rebranding Nodon® products. This device allows control of electric heaters via the pilot wire system commonly used in France.
 
-Unofficial NodOn application that make some non standard Zigbee products compatible with Homey.
+Supported device:
+- Zigbee Pilot Wire Heating Module (SIN-4-FP-21_EQU)
