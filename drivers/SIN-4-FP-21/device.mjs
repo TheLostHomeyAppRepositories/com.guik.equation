@@ -6,10 +6,6 @@ import { getPilotWireLabel, getPilotWireShortLabel } from './PilotWireLabel.mjs'
 import NodOnPilotWireCluster from './NodOnPilotWireCluster.mjs';
 import MeteringCluster from './MeteringCluster.mjs';
 
-const { debug } = ZigBee;
-
-debug(true);
-
 export default class Device extends ZigBeeDevice {
   constructor(...args) {
     super(...args);
