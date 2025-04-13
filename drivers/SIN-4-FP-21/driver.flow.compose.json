@@ -48,7 +48,7 @@
               "id": "frost_protection",
               "title": {
                 "en": "Frost free",
-                "nl": "Hors gel"
+                "fr": "Hors gel"
               }
             },
             {
@@ -65,6 +65,188 @@
                 "fr": "Confort -2°C"
               }
             }
+          ]
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "mode_is",
+      "title": {
+        "en": "Mode is...",
+        "fr": "Le mode est..."
+      },
+      "titleFormatted": {
+        "en": "Mode is [[mode]]",
+        "fr": "Le mode est [[mode]]"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "mode",
+          "title": {
+            "en": "Mode",
+            "fr": "Mode"
+          },
+          "values": [
+            {
+              "id": "off",
+              "title": {
+                "en": "Stop",
+                "fr": "Arrêt"
+              }
+            },
+            {
+              "id": "confort",
+              "title": {
+                "en": "Comfort",
+                "fr": "Confort"
+              }
+            },
+            {
+              "id": "eco",
+              "title": {
+                "en": "Eco",
+                "fr": "Éco"
+              }
+            },
+            {
+              "id": "frost_protection",
+              "title": {
+                "en": "Frost free",
+                "fr": "Hors gel"
+              }
+            },
+            {
+              "id": "confort_-1",
+              "title": {
+                "en": "Comfort -1°C",
+                "fr": "Confort -1°C"
+              }
+            },
+            {
+              "id": "confort_-2",
+              "title": {
+                "en": "Comfort -2°C",
+                "fr": "Confort -2°C"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power_gt",
+      "title": {
+        "en": "Power is greater than",
+        "fr": "La consommation est supérieure à"
+      },
+      "titleFormatted": {
+        "en": "Power is greater than [[value]] watts",
+        "fr": "Consommation supérieure à [[value]] watts"
+      },
+      "args": [
+        {
+          "name": "value",
+          "type": "number",
+          "title": {
+            "en": "Power (W)",
+            "fr": "Puissance (W)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "power_lt",
+      "title": {
+        "en": "Power is less than",
+        "fr": "La consommation est inférieure à"
+      },
+      "titleFormatted": {
+        "en": "Power is less than [[value]] watts",
+        "fr": "Consommation inférieure à [[value]] watts"
+      },
+      "args": [
+        {
+          "name": "value",
+          "type": "number",
+          "title": {
+            "en": "Power (W)",
+            "fr": "Puissance (W)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "power_gte",
+      "title": {
+        "en": "Power is greater than or equal to",
+        "fr": "La consommation est supérieure ou égale à"
+      },
+      "titleFormatted": {
+        "en": "Power is greater than or equal to [[value]] watts",
+        "fr": "Consommation supérieure ou égale à [[value]] watts"
+      },
+      "args": [
+        {
+          "name": "value",
+          "type": "number",
+          "title": {
+            "en": "Power (W)",
+            "fr": "Puissance (W)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "power_lte",
+      "title": {
+        "en": "Power is less than or equal to",
+        "fr": "La consommation est inférieure ou égale à"
+      },
+      "titleFormatted": {
+        "en": "Power is less than or equal to [[value]] watts",
+        "fr": "Consommation inférieure ou égale à [[value]] watts"
+      },
+      "args": [
+        {
+          "name": "value",
+          "type": "number",
+          "title": {
+            "en": "Power (W)",
+            "fr": "Puissance (W)"
+          }
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "mode_changed_to",
+      "title": {
+        "en": "The pilot wire mode changed to...",
+        "fr": "Le mode du fil pilote a changé pour..."
+      },
+      "titleFormatted": {
+        "en": "The mode changed to [[mode]]",
+        "fr": "Le mode est passé à [[mode]]"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "mode",
+          "title": {
+            "en": "Mode",
+            "fr": "Mode"
+          },
+          "values": [
+            { "id": "off", "title": { "en": "Stop", "fr": "Arrêt" } },
+            { "id": "confort", "title": { "en": "Comfort", "fr": "Confort" } },
+            { "id": "eco", "title": { "en": "Eco", "fr": "Éco" } },
+            { "id": "frost_protection", "title": { "en": "Frost free", "fr": "Hors gel" } },
+            { "id": "confort_-1", "title": { "en": "Comfort -1°C", "fr": "Confort -1°C" } },
+            { "id": "confort_-2", "title": { "en": "Comfort -2°C", "fr": "Confort -2°C" } }
           ]
         }
       ]

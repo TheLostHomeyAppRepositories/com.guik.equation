@@ -14,5 +14,22 @@ export default class MyDriver extends ZigBeeDriver {
 
         device.triggerCapabilityListener('pilot_wire_mode', mode);
       });
+
+    this.homey.flow.getConditionCard('power_gt').registerRunListener(async (args) => {
+      const current = await args.device.getCapabilityValue('measure_power');
+      return current > args.value;
+    });
+    this.homey.flow.getConditionCard('power_lt').registerRunListener(async (args) => {
+      const current = await args.device.getCapabilityValue('measure_power');
+      return current < args.value;
+    });
+    this.homey.flow.getConditionCard('power_gte').registerRunListener(async (args) => {
+      const current = await args.device.getCapabilityValue('measure_power');
+      return current >= args.value;
+    });
+    this.homey.flow.getConditionCard('power_lte').registerRunListener(async (args) => {
+      const current = await args.device.getCapabilityValue('measure_power');
+      return current <= args.value;
+    });
   }
 }

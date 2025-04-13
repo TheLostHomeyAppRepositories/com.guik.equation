@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Zigbee pilot wire with metering module (SIN-4-FP-21_EQU)",
-    "fr": "Module Chauffage Fil Pilote Zigbee (SIN-4-FP-21_EQU)"
+    "en": "Pilot wire module (SIN-4-FP-21_EQU)",
+    "fr": "Module fil pilote (SIN-4-FP-21_EQU)"
   },
   "id": "SIN-4-FP-21_EQU",
   "connectivity": ["zigbee"],

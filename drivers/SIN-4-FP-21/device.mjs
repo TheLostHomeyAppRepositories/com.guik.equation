@@ -57,6 +57,9 @@ export default class Device extends ZigBeeDevice {
         this.setCapabilityValue('pilot_wire_mode', value);
         this.setCapabilityValue('pilot_wire_state', getPilotWireShortLabel(value));
 
+        // Déclenche le flow simple "Quand le mode passe à ..."
+        this.homey.flow.getDeviceTriggerCard('mode_changed_to').trigger(this, { mode: value });
+
         return { mode: value };
       }
     });
@@ -119,13 +122,22 @@ export default class Device extends ZigBeeDevice {
     // 🚀 Default startup mode
     this.log('🌿 Startup → No mode set at boot, waiting for report or user interaction.');
 
-    /*
-    const actionAlarmDuration = this.homey.flow.getActionCard('alarm_duration');
-    actionAlarmDuration.registerRunListener(async (args, state) => {
-      this.log('FlowCardAction Set Alarm Duration to: ', args.duration);
-      this.sendAlarmDuration(args.duration);
+    this.homey.flow.getConditionCard('power_gt').registerRunListener(async (args) => {
+      const current = await this.getCapabilityValue('measure_power');
+      return current > args.value;
     });
-    */
+    this.homey.flow.getConditionCard('power_lt').registerRunListener(async (args) => {
+      const current = await this.getCapabilityValue('measure_power');
+      return current < args.value;
+    });
+    this.homey.flow.getConditionCard('power_gte').registerRunListener(async (args) => {
+      const current = await this.getCapabilityValue('measure_power');
+      return current >= args.value;
+    });
+    this.homey.flow.getConditionCard('power_lte').registerRunListener(async (args) => {
+      const current = await this.getCapabilityValue('measure_power');
+      return current <= args.value;
+    });
   }
 
   onDeleted() {
